@@ -5,17 +5,17 @@ import PromptCardTag from './PromptCardTag';
 import PromptCardCountdown from './PromptCardCountdown';
 
 type PromptCardProps = {
-  prompt: String;
-  date: String;
-  tag: String;
-  time: String;
+  prompt: string;
+  date: string;
+  tag: string;
+  time: string;
   answered: Boolean;
 }
 
 type PromptCardHeaderProps = {
-  date: String;
-  tag: String;
-  time: String;
+  date: string;
+  tag: string;
+  time: string;
 }
 
 type PromptCardFooterProps = {
@@ -37,7 +37,7 @@ function PromptCardHeader(props: PromptCardHeaderProps) {
   return (
     <View className = "flex flex-row justify-between items-center">
       <View className = "flex-col gap-y-0">
-        <Text className = "text-lg dark:text-white font-bold">{props.date}</Text>
+        <Text className = "text-lg dark:text-white font-semibold">{props.date}</Text>
         <PromptCardTag tag={props.tag}/>
       </View>
       

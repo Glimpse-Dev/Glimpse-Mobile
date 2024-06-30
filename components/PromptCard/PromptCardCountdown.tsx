@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View,} from 'react-native';
 
 type PromptCardCountdownProps = {
-    time: String;
+    time: string;
 }
 
 export default function PromptCardCountdown(props: PromptCardCountdownProps) {
