@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import { Text, View, AppState} from 'react-native';
 
 type PromptCardCountdownProps = {
@@ -8,64 +8,50 @@ type PromptCardCountdownProps = {
 
 export default function PromptCardCountdown({startTime, duration}: PromptCardCountdownProps) {
     const [timeLeft, setTimeLeft] = useState<number>(0);
-    const [isRunning, setIsRunning] = useState<boolean>(false);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-    const parseStartTime = (time: string): number => {
+    const parseStartTime = useCallback((time: string): number => {
         return new Date(time).getTime();
-    };
+    }, []);
 
-    const calculateRemainingTime = (startTime: number): number => {
+    const calculateRemainingTime = useCallback((parsedStartTime: number): number => {
         const currentTime = Date.now();
-        const elapsedTime = (currentTime - startTime) / 1000;
+        const elapsedTime = (currentTime - parsedStartTime) / 1000;
         return Math.max(duration - elapsedTime, 0);
-    }
+    }, [duration]);
 
-    const updateRemainingTime = () => {
-        const parsedStartTime = parseStartTime(startTime)
+    const updateRemainingTime = useCallback(() => {
+        const parsedStartTime = parseStartTime(startTime);
         const timeLeft = calculateRemainingTime(parsedStartTime);
         setTimeLeft(timeLeft);
-        setIsRunning(timeLeft > 0);
-    }
+    }, [parseStartTime, calculateRemainingTime, startTime]);
 
-    // Sets initial remaining time and run state on mount
     useEffect(() => {
         updateRemainingTime();
-    }, [startTime, duration]);
 
-    // Updates remaining time and run state when app state changes eg. app goes to background or is closed
-    useEffect(() => {
+        if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        intervalRef.current = setInterval(() => {
+            updateRemainingTime();
+        }, 1000);
+
         const handleAppStateChange = (nextAppState: string) => {
             if (nextAppState === 'active') {
                 updateRemainingTime();
             }
-        }
+        };
 
         const subscription = AppState.addEventListener('change', handleAppStateChange);
 
         return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
             subscription.remove();
-        }
-    
-    }, [startTime, duration]);
-
-    //Manages interval to update time left every second
-    useEffect(() => {
-        if (isRunning) {
-            intervalRef.current = setInterval(() => {
-                const parsedStartTime = parseStartTime(startTime);
-                const timeLeft = calculateRemainingTime(parsedStartTime);
-                setTimeLeft(timeLeft);
-                if (timeLeft <= 0) {
-                    clearInterval(intervalRef.current as NodeJS.Timeout);
-                    setIsRunning(false);
-                }
-            }, 1000);
-        } else {
-            clearInterval(intervalRef.current as NodeJS.Timeout);
-        }
-        return () => clearInterval(intervalRef.current as NodeJS.Timeout);
-    }, [isRunning]);
+        };
+    }, [updateRemainingTime]);
 
     const formatTime = (seconds: number): string => {
         const hrs = Math.floor(seconds / 3600);
