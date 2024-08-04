@@ -20,10 +20,10 @@ export default function TopRow({startTime, duration, flash, toggleFlash}: TopRow
                 </Pressable>
 
                 <Countdown startTime={startTime} duration={duration} />
-                <Pressable onPress={toggleFlash}>
-                    <Image source={require('../../../assets/images/flashIcon.svg')} className="w-6 h-6 justify-center items-center">
-                        {flash == "off" && <View className="w-full h-[1.5px] bg-white rotate-45"/>}
-                    </Image>
+                <Pressable onPress={toggleFlash} className = "justify-center items-center">
+                    <Image source={require('../../../assets/images/flashIcon.svg')} className="w-6 h-6 relative"/>
+                        {flash == "off" && <View className="w-full h-[1.5px] bg-white rotate-45 absolute"/>}
+                    
                 </Pressable>
             </View>
     )

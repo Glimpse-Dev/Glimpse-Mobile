@@ -1,6 +1,8 @@
-import React, { useState, useRef} from 'react';
+import React, { useState, useRef, useEffect} from 'react';
 import { Animated, Easing, View, Text, Pressable, LayoutAnimation, UIManager, Platform } from 'react-native';
 import { Image } from 'expo-image';
+import { getAssetsAsync } from 'expo-media-library';
+import { MediaLibraryPermissionResponse} from 'expo-image-picker';
 
 type BottomRowProps = {
     takePicture: () => void,
@@ -8,22 +10,45 @@ type BottomRowProps = {
     photoUri: string | null,
     uploadPhoto: () => void,
     retakePicture: () => void,
+    mediaLibraryPermission: MediaLibraryPermissionResponse | null,
+    pickImage : () => void,
 }
 
-export default function BottomRow({takePicture, toggleFacing, photoUri, uploadPhoto, retakePicture}: BottomRowProps) {
+export default function BottomRow({takePicture, toggleFacing, photoUri, uploadPhoto, retakePicture, mediaLibraryPermission, pickImage}: BottomRowProps) {
     const [borderWidth, setBorderWidth] = useState(3);
     const flipAnimation = useRef(new Animated.Value(1)).current;
+    // const [mediaLibraryPermission, requestMediaLibraryPermission] = useMediaLibraryPermissions();
+    const [firstPhotoUri, setFirstPhotoUri] = useState<string | null>(null);
 
     if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
         UIManager.setLayoutAnimationEnabledExperimental(true);
     }
 
+    useEffect(() => {
+        if (mediaLibraryPermission?.granted) {
+            fetchFirstPhoto();
+        } 
+    }, [mediaLibraryPermission]);
+
+    async function fetchFirstPhoto() {
+        const assets = await getAssetsAsync({ 
+            first: 1,
+            sortBy: ['creationTime'],
+        });
+        if (assets.assets.length > 0){
+            setFirstPhotoUri(assets.assets[0].uri);
+        } else {
+            setFirstPhotoUri(null);
+        }
+        
+    }
+
     function animateButton() {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        setBorderWidth(4);  // Temporarily increase border width
+        setBorderWidth(4);
         setTimeout(() => {
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-            setBorderWidth(3);  // Return border width to original value
+            setBorderWidth(3); 
         }, 100);
     }
 
@@ -74,7 +99,11 @@ export default function BottomRow({takePicture, toggleFacing, photoUri, uploadPh
         </View>) 
         : 
         (<View className="flex flex-row w-full h-[20%] items-center justify-between px-10">
-                <View className=" w-11 h-11 rounded-xl bg-[#D9D9D9]" />
+                {mediaLibraryPermission?.granted && firstPhotoUri? 
+                <Pressable onPress={pickImage}>
+                    {firstPhotoUri && <Image source={{ uri: firstPhotoUri }} className="w-11 h-11 rounded-xl" /> }
+                </Pressable>
+                : <Pressable onPress={pickImage} className=" w-11 h-11 rounded-xl bg-[#D9D9D9]" />}
                 <Pressable onPress={onTakePicture}>
                     <View className=" w-[72px] h-[72px] bg-white rounded-full flex justify-center items-center">
                         <View style={[{ width: 66, height: 66, backgroundColor: 'white', borderRadius: 100 }, borderStyle]} />
