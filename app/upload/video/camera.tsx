@@ -11,7 +11,6 @@ import { readAsStringAsync } from 'expo-file-system';
 import TopRow from '../../../components/upload/TopRow';
 import BottomRow from '../../../components/upload/video/BottomRow';
 import Camera from '../../../components/upload/video/Camera';
-import { MediaType } from 'expo-media-library';
 
 export default function Page() {
     const cameraRef = useRef<CameraView>(null);
