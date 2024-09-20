@@ -3,9 +3,9 @@ import React from "react";
 import { Text, View } from "react-native";
 
 // *Constants
-const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const today = new Date();
-const todayIndex = today.getDay() - 1; // getDay() returns 0 for Sunday, 1 for Monday, etc.
+const todayIndex = today.getDay();
 
 // *Start of the Timeline Function
 export default function Timeline() {
