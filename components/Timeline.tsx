@@ -23,13 +23,13 @@ export default function Timeline() {
           <View key={index} className="flex-col items-center">
             <Text className="mb-2 font-semibold">{day}</Text>
             <View
-              className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                todayIndex === index ? "bg-black" : "bg-gray-300"
+              className={`w-10 h-10 rounded-full shadow-md shadow-gray-200 flex items-center justify-center ${
+                todayIndex === index ? "bg-white border" : "bg-white"
               }`}
             >
               <Text
                 className={`text-center ${
-                  todayIndex === index ? "text-white" : "text-black"
+                  todayIndex === index ? "text-black" : "text-black"
                 }`}
               >
                 {dateNumber}

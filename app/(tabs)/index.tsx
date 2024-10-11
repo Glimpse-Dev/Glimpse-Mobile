@@ -2,10 +2,12 @@ import { StyleSheet } from "react-native";
 
 import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
+import Timeline from "../../components/Timeline";
 
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
+      <Timeline />
       <Text className="text-xl font-bold text-blue-700">Tab One</Text>
       <View
         style={styles.separator}
