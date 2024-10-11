@@ -24,12 +24,12 @@ export default function Timeline() {
             <Text className="mb-2 font-semibold">{day}</Text>
             <View
               className={`w-10 h-10 rounded-full shadow-md shadow-gray-200 flex items-center justify-center ${
-                todayIndex === index ? "bg-white border" : "bg-white"
+                todayIndex === index ? "border border-blue-500" : "bg-white"
               }`}
             >
               <Text
                 className={`text-center ${
-                  todayIndex === index ? "text-black" : "text-black"
+                  todayIndex === index ? "text-blue-500" : "text-black"
                 }`}
               >
                 {dateNumber}
