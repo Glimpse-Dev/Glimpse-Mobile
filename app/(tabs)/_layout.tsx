@@ -1,17 +1,21 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Feather, Octicons } from '@expo/vector-icons';
 import { Link, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
-
+import { Pressable, TouchableOpacity, useColorScheme, Text, View } from 'react-native';
+import TabBar from '../../components/TabBar';
 import Colors from '../../constants/Colors';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
+  name: React.ComponentProps<typeof Feather | typeof Octicons>['name'];
   color: string;
+  size?: number;
+  IconComponent: any;  // Accept the icon library as a prop
 }) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+  const { IconComponent, name, color, size = 28 } = props;
+  return <IconComponent name={name} size={size} style={{ marginBottom: -3 }} color={color} />;
 }
 
 export default function TabLayout() {
@@ -21,33 +25,26 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}>
+        headerShown: false
+      }}
+      tabBar={(props: BottomTabBarProps) => <TabBar {...props} />}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: 'Home',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon IconComponent={Feather} name="home" color={color} size={28} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="profile"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Profile',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon IconComponent={Octicons} name="person" color={color} size={28} />
+          ),
         }}
       />
     </Tabs>
