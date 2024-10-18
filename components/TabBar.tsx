@@ -19,31 +19,31 @@ interface TabsShapeProps {
 // Drawing the tab shape
 const TabsShape: React.FC<TabsShapeProps> = ({ tabWidth }) => {
   // const points = [
-  //   //top left
-  //   { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.4 },
-  //   { x: tabWidth * .25, y: 0 },
-  //   { x: tabWidth, y: 0 },
+  //top left
+  // { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.4 },
+  // { x: tabWidth * .25, y: 0 },
+  // { x: tabWidth, y: 0 },
 
 
-  //   { x: tabWidth * 1.4, y: 0 },                          // Start left
-  //   { x: tabWidth * 1.8, y: 0 },                          // Slight right from start
-  //   { x: tabWidth * 2 + 10, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.5 },  // Peak of the curve
-  //   { x: tabWidth * 3 - 10, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.5 },  // Peak mirrored on the right
-  //   { x: tabWidth * 3.2, y: 0 },                          // Symmetrical point on the right
-  //   { x: tabWidth * 3.6, y: 0 },                          // End right              
+  // { x: tabWidth * 1.4, y: 0 },                          // Start left
+  // { x: tabWidth * 1.8, y: 0 },                          // Slight right from start
+  // { x: tabWidth * 2 + 10, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.5 },  // Peak of the curve
+  // { x: tabWidth * 3 - 10, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.5 },  // Peak mirrored on the right
+  // { x: tabWidth * 3.2, y: 0 },                          // Symmetrical point on the right
+  // { x: tabWidth * 3.6, y: 0 },                          // End right              
 
-  //   //top right
-  //   { x: wWidth - tabWidth, y: 0 },
-  //   { x: wWidth - tabWidth * .25, y: 0 },
-  //   { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .4 },
-  //   { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .6 },
+  // //top right
+  // { x: wWidth - tabWidth, y: 0 },
+  // { x: wWidth - tabWidth * .25, y: 0 },
+  // { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .4 },
+  // { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .5 },
 
-  //   //bottom right 
-  //   { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
-  //   { x: wWidth - tabWidth, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
-  //   { x: tabWidth, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
-  //   { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
-  //   { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.6 },
+  // //bottom right 
+  // { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
+  // { x: wWidth - tabWidth, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
+  // { x: tabWidth, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
+  // { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
+  // { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .5 },
   // ];
   const d = useMemo(() => {
 
@@ -65,14 +65,14 @@ const TabsShape: React.FC<TabsShapeProps> = ({ tabWidth }) => {
       { x: wWidth - tabWidth, y: 0 },
       { x: wWidth - tabWidth * .25, y: 0 },
       { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .4 },
-      { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .6 },
+      { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .5 },
 
       //bottom right 
       { x: wWidth - tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
       { x: wWidth - tabWidth, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
       { x: tabWidth, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
       { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
-      { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.6 },
+      { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .5 },
     ]);
 
     return `${center}`;
@@ -112,7 +112,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation })
   const tabWidth = screenWidth / 5;
 
   return (
-    <View style={{ position: 'absolute', bottom: 16, width: wWidth, height: NAVIGATION_BOTTOM_TABS_HEIGHT }}>
+    <View style={{ position: 'absolute', bottom: 18, width: wWidth, height: NAVIGATION_BOTTOM_TABS_HEIGHT }}>
       {/* Loading in the shape */}
       <TabsShape tabWidth={tabWidth} />
 
