@@ -1,8 +1,10 @@
-import { View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Dimensions, GestureResponderEvent, StyleProp, ViewStyle } from 'react-native';
 import React, { useMemo } from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { line, curveBasis, curveBasisClosed, curveLinear } from 'd3-shape';
-import { Svg, Path, Circle, LinearGradient } from 'react-native-svg';
+import { Svg, Path } from 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
+import { AntDesign } from '@expo/vector-icons';
 
 
 // Setup for the tab drawing
@@ -46,7 +48,6 @@ const TabsShape: React.FC<TabsShapeProps> = ({ tabWidth }) => {
   // { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .5 },
   // ];
   const d = useMemo(() => {
-
     const center = lineGenerator.curve(curveBasisClosed)([
       //top left
       { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * 0.4 },
@@ -74,11 +75,8 @@ const TabsShape: React.FC<TabsShapeProps> = ({ tabWidth }) => {
       { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT },
       { x: tabWidth * .25, y: NAVIGATION_BOTTOM_TABS_HEIGHT * .5 },
     ]);
-
     return `${center}`;
   }, [tabWidth]);
-
-
   return (
     <View>
       <Svg width={wWidth} height={NAVIGATION_BOTTOM_TABS_HEIGHT}>
@@ -106,6 +104,32 @@ const TabsShape: React.FC<TabsShapeProps> = ({ tabWidth }) => {
   );
 };
 
+// Tab component
+interface TabComponentProps {
+  isFocused: boolean;
+  onPress: (event: GestureResponderEvent) => void;
+  onLongPress: (event: GestureResponderEvent) => void;
+  icon: React.ReactNode;
+  label: string;
+  extraStyle?: string | StyleProp<ViewStyle>;
+}
+
+const TabComponent: React.FC<TabComponentProps> = ({ isFocused, onPress, onLongPress, icon, label, extraStyle }) => {
+
+  return (
+    <TouchableOpacity
+      accessibilityRole="button"
+      accessibilityState={isFocused ? { selected: true } : {}}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      className={`flex-1 justify-center items-center mb-7 ${extraStyle}`}
+    >
+      {icon}
+    </TouchableOpacity>
+  );
+};
+
+
 // Actual Tab/ Navbar Component
 const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
   const screenWidth = Dimensions.get('window').width;
@@ -113,7 +137,6 @@ const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation })
 
   return (
     <View style={{ position: 'absolute', bottom: 18, width: wWidth, height: NAVIGATION_BOTTOM_TABS_HEIGHT }}>
-      {/* Loading in the shape */}
       <TabsShape tabWidth={tabWidth} />
 
       <View style={{ flexDirection: 'row', position: 'absolute', bottom: 0, left: 0, right: 0 }}>
@@ -122,7 +145,7 @@ const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation })
           const isFocused = state.index === index;
 
           const icon = options.tabBarIcon
-            ? options.tabBarIcon({ focused: isFocused, color: isFocused ? '#673ab7' : '#fff', size: 28 })
+            ? options.tabBarIcon({ focused: isFocused, color: isFocused ? '#fff' : '#A9A9AC', size: 32 })
             : null;
 
           const onPress = () => {
@@ -147,73 +170,49 @@ const TabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation })
           // Add button
           if (route.name === 'add') {
             return (
-              <TouchableOpacity
+              <LinearGradient
                 key={route.key}
-                accessibilityRole="button"
-                onPress={() => navigation.navigate('add')}
-                className="
-                  absolute 
-                  bottom-16
-                  h-20 
-                  w-20 
-                  rounded-full 
-                  bg-purple-700 
-                  items-center 
-                  justify-center 
-                  shadow-lg
-                "
+                colors={['#D372E5', '#5731D6']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 0 }}
                 style={{
-                  left: screenWidth / 2 - 40, // Center the button horizontally (the add button width is 80px)
+                  position: 'absolute',
+                  bottom: 64,
+                  height: 72,
+                  width: 72,
+                  borderRadius: 36,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  left: screenWidth / 2 - 36,
                 }}
               >
-                <Text style={{ color: 'white', fontSize: 40 }}>+</Text>
-              </TouchableOpacity>
-            );
-          }
-
-          if (route.name === 'index') {
-            return (
-              <TouchableOpacity
-                key={route.key}
-                accessibilityRole="button"
-                accessibilityState={isFocused ? { selected: true } : {}}
-                accessibilityLabel={options.tabBarAccessibilityLabel}
-                testID={options.tabBarTestID}
-                onPress={onPress}
-                onLongPress={onLongPress}
-                className='flex-1 justify-center items-center mb-6 mr-8'
-              >
-                {icon}
-                <Text style={{ color: isFocused ? '#673ab7' : '#fff' }} className='mt-2'>
-                  Home
-                </Text>
-              </TouchableOpacity>
-            );
-          }
-
-          if (route.name === 'profile') {
-            return (
-              <TouchableOpacity
-                key={route.key}
-                accessibilityRole="button"
-                accessibilityState={isFocused ? { selected: true } : {}}
-                accessibilityLabel={options.tabBarAccessibilityLabel}
-                testID={options.tabBarTestID}
-                onPress={onPress}
-                onLongPress={onLongPress}
-                className='flex-1 justify-center items-center mb-6 ml-8'
-              >
-                {icon}
-                <Text style={{ color: isFocused ? '#673ab7' : '#fff' }} className='mt-2'>
-                  Profile
-                </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  onPress={() => navigation.navigate('add')}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 36,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <AntDesign name="plus" size={50} color="white" />
+                </TouchableOpacity>
+              </LinearGradient>
             );
           }
 
           return (
-            <>
-            </>
+            <TabComponent
+              key={route.key}
+              isFocused={isFocused}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              icon={icon}
+              label={route.name === 'index' ? 'Home' : 'Profile'}
+              extraStyle={route.name === 'index' ? 'mr-8' : 'ml-8'}
+            />
           );
         })}
       </View>
