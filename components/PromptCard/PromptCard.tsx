@@ -1,9 +1,9 @@
-import React from 'react';
-import { Text, View, Button } from 'react-native';
-import PromptCardButton from './PromptCardButton';
-import PromptCardTag from './PromptCardTag';
-import PromptCardCountdown from './PromptCardCountdown';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from "react";
+import { Text, View, Button } from "react-native";
+import PromptCardButton from "./PromptCardButton";
+import PromptCardTag from "./PromptCardTag";
+import PromptCardCountdown from "./PromptCardCountdown";
+import { LinearGradient } from "expo-linear-gradient";
 
 type PromptCardProps = {
   prompt: string;
@@ -12,30 +12,30 @@ type PromptCardProps = {
   duration: number; //Duration in seconds
   answered: Boolean;
   numAnswers: number;
-}
+};
 
-export default function PromptCard({prompt, tag, startTime, duration, answered, numAnswers}: PromptCardProps) {
+export default function PromptCard({
+  prompt,
+  tag,
+  startTime,
+  duration,
+  answered,
+  numAnswers,
+}: PromptCardProps) {
   return (
-    <View 
-      className = "relative w-[327px] h-[229px] rounded-[20px] bg-gradient-to-r from-[#D372E5] to-[#5731D6]"
-    >
-      <LinearGradient 
-        colors={['#D372E5', '#5731D6']} 
-        start={{x: 0, y: 1}} 
-        end={{x: 1, y: 0}}
-        style={{borderRadius: 20, width: 327, height: 229, position: 'absolute'}}
+    <View className="relative w-[327px] h-[229px] rounded-[20px]">
+      <LinearGradient
+        colors={["#D372E5", "#5731D6"]}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 0 }}
+        style={{
+          borderRadius: 20,
+          width: 327,
+          height: 229,
+          position: "absolute",
+        }}
       />
-      <Text 
-        className="text-white font-bold text-2xl"
-      >
-        {prompt}
-      </Text>
+      <Text className="text-white font-bold text-2xl">{prompt}</Text>
     </View>
   );
-}
-
-
-// Replace this with the function that navigates to the answer prompt
-function goToAnswerPrompt() {
-  console.log("Answer Prompt");
 }
