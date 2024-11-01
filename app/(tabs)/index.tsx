@@ -13,7 +13,7 @@ export default function TabOneScreen() {
         lightColor="#eee"
         darkColor="rgba(255,255,255,0.1)"
       />
-      <Link href = "/upload/image/camera">
+      <Link href = "/upload/video/camera">
         <Text className = "dark:text-white">Camera</Text>
       </Link>
     </View>
