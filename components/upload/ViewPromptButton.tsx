@@ -18,7 +18,7 @@ export function ViewPromptButton({viewPromptOpen, handleViewPrompt}: ViewPromptB
     }
 
     return(
-        <Pressable onPress={toggleViewPrompt} className = "bg-white justify-center items-center pr-1 py-2 rounded-[30px] flex-row gap-x-2 opacity-100 max-w-[45%]">
+        <Pressable onPress={toggleViewPrompt} className = "bg-white justify-center items-center pr-3 pl-1 py-2 rounded-[30px] flex-row gap-x-2 opacity-100 max-w-[45%]">
             <Image source={viewPromptOpen ? require(`../../assets/images/xIconBlack.svg`) : require(`../../assets/images/eyeIcon.svg`)} className={`${viewPromptOpen ? "w-3 h-3 " : "w-4 h-4 "}`}/>
             <Text className = "font-semibold">{text}</Text>
         </Pressable>
