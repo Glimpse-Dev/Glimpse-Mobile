@@ -16,9 +16,13 @@ export default function TabOneScreen() {
       <Link href = "/upload/text/textbox">
         <Text className = "dark:text-white">Text Response</Text>
       </Link>
-      <Link href = "/upload/video/camera">
-        <Text className = "dark:text-white">Camera</Text>
+      <Link href = "/upload/image/camera">
+        <Text className = "dark:text-white">Picture</Text>
       </Link>
+      <Link href = "/upload/video/camera">
+        <Text className = "dark:text-white">Video</Text>
+      </Link>
+
     </View>
   );
 }
