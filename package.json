@@ -41,6 +41,7 @@
     "react-native-screens": "3.31.1",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.10",
+    "expo-blur": "~13.0.2"
     "expo-file-system": "~17.0.1"
   },
   "devDependencies": {
